@@ -1782,9 +1782,64 @@ html[data-mode] .btn.b1{background:linear-gradient(135deg,var(--gold2),var(--gol
 html[data-mode] #stats .stat strong{-webkit-text-fill-color:var(--gold2)!important;background:none!important;color:var(--gold2)!important}html[data-mode] #stats .stat span{color:#b6c6d6!important}
 .herosub{margin:14px 0 0;font-size:clamp(1rem,2vw,1.2rem);color:#c3cfdb!important;max-width:34em}
 @media(max-width:640px){.idl{margin-left:0}}
+
+/* ===== Developer backdrop (added): code columns + blueprint grid ===== */
+.devbg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+--dv-line:rgba(20,52,84,.07);--dv-tx:#3a4d63;--dv-k:#0a6f63;--dv-s:#2563eb;--dv-n:#a8741f;--dv-c:#7a8da1;--dv-o:.38;
+font-family:ui-monospace,"JetBrains Mono","IBM Plex Mono",SFMono-Regular,Menlo,Consolas,monospace}
+html[data-mode="dark"] .devbg,.devbg.dv-hero{--dv-line:rgba(255,255,255,.05);--dv-tx:#b8c7d8;--dv-k:#6fd8c9;--dv-s:#8ab4ff;--dv-n:#e2b560;--dv-c:#7f93a8;--dv-o:.42}
+.devbg.dv-hero{position:absolute;--dv-o:.34}
+.devbg.dv-hero .dv-l pre{-webkit-mask-image:linear-gradient(90deg,#000 14%,transparent 42%);mask-image:linear-gradient(90deg,#000 14%,transparent 42%)}
+.devbg.dv-hero .dv-r pre{-webkit-mask-image:linear-gradient(270deg,#000 14%,transparent 42%);mask-image:linear-gradient(270deg,#000 14%,transparent 42%)}
+.devbg .dv-grid{position:absolute;inset:0;background-image:linear-gradient(var(--dv-line) 1px,transparent 1px),linear-gradient(90deg,var(--dv-line) 1px,transparent 1px);background-size:56px 56px;background-position:-1px -1px;
+-webkit-mask-image:radial-gradient(ellipse 70% 62% at 50% 38%,#000 0,transparent 100%);mask-image:radial-gradient(ellipse 70% 62% at 50% 38%,#000 0,transparent 100%)}
+.devbg .dv-col{position:absolute;width:min(30vw,420px);opacity:var(--dv-o);
+-webkit-mask-image:linear-gradient(180deg,transparent,#000 16%,#000 72%,transparent);mask-image:linear-gradient(180deg,transparent,#000 16%,#000 72%,transparent)}
+.devbg .dv-col pre{margin:0;padding:0;white-space:pre;overflow:hidden;font:inherit;font-size:clamp(10.5px,.92vw,13.5px);line-height:1.75;color:var(--dv-tx);tab-size:2}
+.devbg .dv-l{left:2.2vw;top:10vh}
+.devbg .dv-r{right:2.2vw;top:16vh}
+.devbg .dv-l pre{-webkit-mask-image:linear-gradient(90deg,#000 55%,transparent);mask-image:linear-gradient(90deg,#000 55%,transparent)}
+.devbg .dv-r pre{-webkit-mask-image:linear-gradient(270deg,#000 55%,transparent);mask-image:linear-gradient(270deg,#000 55%,transparent)}
+.devbg .dk{color:var(--dv-k)}.devbg .ds{color:var(--dv-s)}.devbg .dn{color:var(--dv-n)}.devbg .dc{color:var(--dv-c)}
+section.hero{position:relative;isolation:isolate}
+@media(max-width:720px){.devbg .dv-r{display:none}.devbg .dv-l{left:3vw;width:70vw}.devbg .dv-col{--dv-o:.2}.devbg.dv-hero{--dv-o:.2}.devbg .dv-grid{background-size:44px 44px}}
+@media print{.devbg{display:none!important}}
 </style>
 </head>
 <body>
+<div class="devbg" aria-hidden="true" role="presentation"><div class="dv-grid"></div><div class="dv-col dv-l"><pre><span class="dc"> 1</span>  <span class="dk">import</span> { build } <span class="dk">from</span> <span class="ds">"./studio"</span>;
+<span class="dc"> 2</span>
+<span class="dc"> 3</span>  <span class="dk">const</span> site = <span class="dk">await</span> build({
+<span class="dc"> 4</span>    stack: [<span class="ds">"html"</span>, <span class="ds">"css"</span>, <span class="ds">"js"</span>],
+<span class="dc"> 5</span>    booking: <span class="dn">true</span>,
+<span class="dc"> 6</span>    backup: <span class="ds">"google-sheets"</span>,
+<span class="dc"> 7</span>  });
+<span class="dc"> 8</span>
+<span class="dc"> 9</span>  <span class="dk">export async function</span> launch() {
+<span class="dc">10</span>    <span class="dk">await</span> test(site.forms);
+<span class="dc">11</span>    <span class="dc">// preview first, pay after</span>
+<span class="dc">12</span>    <span class="dk">return</span> deploy(site, <span class="ds">"vercel"</span>);
+<span class="dc">13</span>  }
+<span class="dc">14</span>
+<span class="dc">15</span>  <span class="dk">const</span> fix = (bug) =&gt; bug.age &lt; <span class="dn">7</span>;
+<span class="dc">16</span>  <span class="dc">// 7-day free fix</span></pre></div><div class="dv-col dv-r"><pre><span class="ln"><span class="dk">$</span> git commit -m <span class="ds">"ship it"</span></span>
+<span class="ln"><span class="dk">$</span> npm run build</span>
+<span class="ln"><span class="dn">&#10003;</span> compiled in <span class="dn">1.2s</span></span>
+<span class="ln"><span class="dk">$</span> vercel --prod</span>
+<span class="ln"><span class="dn">&#10003;</span> live: <span class="dn">7</span> sites</span>
+<span class="ln"> </span>
+<span class="ln">&lt;<span class="dk">section</span> <span class="ds">id</span>=<span class="ds">"booking"</span>&gt;</span>
+<span class="ln">  &lt;<span class="dk">form</span> <span class="ds">onsubmit</span>=<span class="ds">"save()"</span>&gt;</span>
+<span class="ln">    &lt;<span class="dk">input</span> <span class="ds">name</span>=<span class="ds">"date"</span>&gt;</span>
+<span class="ln">  &lt;/<span class="dk">form</span>&gt;</span>
+<span class="ln">&lt;/<span class="dk">section</span>&gt;</span>
+<span class="ln"> </span>
+<span class="ln"><span class="dk">SELECT</span> status, <span class="dk">COUNT</span>(*)</span>
+<span class="ln"><span class="dk">FROM</span> orders</span>
+<span class="ln"><span class="dk">GROUP BY</span> status;</span>
+<span class="ln"> </span>
+<span class="ln"><span class="dc">POST /api/booking</span> <span class="dn">200</span></span>
+<span class="ln"><span class="dc">{ "status": "saved" }</span></span></pre></div></div>
 <!-- ============ Ask-a-question chat widget ============ -->
 <a id="wa-float" href="https://wa.me/639761035892?text=Hi%20Delmar%2C%20I%27d%20like%20to%20ask%20about%20a%20website%20or%20booking%20system." target="_blank" rel="noopener noreferrer" aria-label="Message Delmar on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.45 15.05L2 22l5.07-1.55A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3 .92.98-2.92-.2-.31a8.2 8.2 0 1 1 6.7 3.63Zm4.5-6.1c-.25-.12-1.46-.72-1.69-.8-.22-.09-.39-.12-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.53.06a6.7 6.7 0 0 1-1.97-1.22 7.4 7.4 0 0 1-1.36-1.69c-.14-.25 0-.38.1-.5.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47c-.17 0-.43.06-.65.31-.22.25-.85.83-.85 2.03 0 1.2.87 2.35 1 2.51.12.17 1.71 2.6 4.14 3.65.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.46-.6 1.66-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.17-.47-.29Z"/></svg></a>
 <button id="chat-launcher" aria-label="Open quick questions chat" aria-expanded="false">
@@ -1826,6 +1881,39 @@ html[data-mode] #stats .stat strong{-webkit-text-fill-color:var(--gold2)!importa
 <main id="main">
 
 <section class="dark hero" id="top">
+<div class="devbg dv-hero" aria-hidden="true" role="presentation"><div class="dv-grid"></div><div class="dv-col dv-l"><pre><span class="dc"> 1</span>  <span class="dk">import</span> { build } <span class="dk">from</span> <span class="ds">"./studio"</span>;
+<span class="dc"> 2</span>
+<span class="dc"> 3</span>  <span class="dk">const</span> site = <span class="dk">await</span> build({
+<span class="dc"> 4</span>    stack: [<span class="ds">"html"</span>, <span class="ds">"css"</span>, <span class="ds">"js"</span>],
+<span class="dc"> 5</span>    booking: <span class="dn">true</span>,
+<span class="dc"> 6</span>    backup: <span class="ds">"google-sheets"</span>,
+<span class="dc"> 7</span>  });
+<span class="dc"> 8</span>
+<span class="dc"> 9</span>  <span class="dk">export async function</span> launch() {
+<span class="dc">10</span>    <span class="dk">await</span> test(site.forms);
+<span class="dc">11</span>    <span class="dc">// preview first, pay after</span>
+<span class="dc">12</span>    <span class="dk">return</span> deploy(site, <span class="ds">"vercel"</span>);
+<span class="dc">13</span>  }
+<span class="dc">14</span>
+<span class="dc">15</span>  <span class="dk">const</span> fix = (bug) =&gt; bug.age &lt; <span class="dn">7</span>;
+<span class="dc">16</span>  <span class="dc">// 7-day free fix</span></pre></div><div class="dv-col dv-r"><pre><span class="ln"><span class="dk">$</span> git commit -m <span class="ds">"ship it"</span></span>
+<span class="ln"><span class="dk">$</span> npm run build</span>
+<span class="ln"><span class="dn">&#10003;</span> compiled in <span class="dn">1.2s</span></span>
+<span class="ln"><span class="dk">$</span> vercel --prod</span>
+<span class="ln"><span class="dn">&#10003;</span> live: <span class="dn">7</span> sites</span>
+<span class="ln"> </span>
+<span class="ln">&lt;<span class="dk">section</span> <span class="ds">id</span>=<span class="ds">"booking"</span>&gt;</span>
+<span class="ln">  &lt;<span class="dk">form</span> <span class="ds">onsubmit</span>=<span class="ds">"save()"</span>&gt;</span>
+<span class="ln">    &lt;<span class="dk">input</span> <span class="ds">name</span>=<span class="ds">"date"</span>&gt;</span>
+<span class="ln">  &lt;/<span class="dk">form</span>&gt;</span>
+<span class="ln">&lt;/<span class="dk">section</span>&gt;</span>
+<span class="ln"> </span>
+<span class="ln"><span class="dk">SELECT</span> status, <span class="dk">COUNT</span>(*)</span>
+<span class="ln"><span class="dk">FROM</span> orders</span>
+<span class="ln"><span class="dk">GROUP BY</span> status;</span>
+<span class="ln"> </span>
+<span class="ln"><span class="dc">POST /api/booking</span> <span class="dn">200</span></span>
+<span class="ln"><span class="dc">{ "status": "saved" }</span></span></pre></div></div>
 <div class="wrap">
 <div>
 <div class="eyebrow">Delmar Rebese · Web &amp; AI Automation</div><h1>Live websites. Working systems. <em>Real results.</em></h1><p class="sub herosub">Websites, booking and order tracking systems for small businesses.</p>
